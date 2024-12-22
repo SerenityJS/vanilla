@@ -10,7 +10,8 @@
   "module": "dist/index.mjs",
   "license": "MIT",
   "scripts": {
-    "build": "tsup"
+    "build": "tsup",
+    "watch": "tsup --watch"
   },
   "tsup": {
     "entry": [
