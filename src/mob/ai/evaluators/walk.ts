@@ -2,7 +2,6 @@ import { Node, NodeEvaluator, Entity } from "@serenityjs/core";
 import { Logger, LoggerColors } from "@serenityjs/logger";
 import { Vector2f, Vector3f } from "@serenityjs/protocol";
 
-// TODO: Improve this, and improve falling
 class WalkEvaluator extends NodeEvaluator {
   private entityBounds: Vector2f;
 
@@ -38,13 +37,17 @@ class WalkEvaluator extends NodeEvaluator {
           yield aboveNode;
         } else if (!neighborBlock.isSolid && !neighborBlock.below().isSolid) {
           // Try to fall through
-          const belowNode = new Node(neighbor.subtract(new Vector3f(0, 1, 0)));
+          let belowNode = new Node(neighbor.subtract(new Vector3f(0, 1, 0)));
 
-          if (!this.checkForCollisions(belowNode)) continue;
           if (!this.getBlock(belowNode).isSolid) {
+            const floor = this.getBlock(belowNode).below();
+            const floorNode = Node.fromPosition(floor.position);
+
+            if (!floor.isSolid) belowNode = floorNode;
             // ? Add additional damage for fall damage
-            belowNode.gCost += 2;
+            belowNode.gCost += 3;
           }
+          if (!this.checkForCollisions(belowNode)) continue;
           this.logger.info(
             `Adding below: ${belowNode.x}, ${belowNode.y}, ${belowNode.z}`
           );
@@ -77,19 +80,6 @@ class WalkEvaluator extends NodeEvaluator {
       }
     }
     return true;
-  }
-
-  private findNodeBelow(node: Node): Node {
-    let current = node;
-
-    while (true) {
-      const block = this.entity.dimension.getBlock(current);
-
-      if (block.isSolid) {
-        return current;
-      }
-      current = Node.fromPosition(block.below().position);
-    }
   }
 }
 
