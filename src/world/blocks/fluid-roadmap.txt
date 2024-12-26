@@ -1,0 +1,22 @@
+Minecraft Fluids:
+  - ✅ Either the block is a flowing or source fluid block, spreads by its own
+  - If the source block cant spread horizontally
+    	the flow will try to pathfind a fall in a 5-4 radius after reaching the floor
+  - ✅ If the source block can spread horizontally it will do it
+  - ✅ A fluid can spread infitelly vertically, being this the main advantage
+  - ✅ The fluid max spread without fall (for water) is 7 blocks
+  - ✅ Fluid distance is measured by manhattan distance
+  - The flowing should start to flow only if:
+    ✅ Its on the ground
+    * The pathfinding condition is not fullfiled
+  - minecraft:water Depth > 8:
+    - Full block
+  - TODOs:
+    ✅ Add fluid collisions
+    ✅ Add fluid viscostiy
+    ✅ Flow doesnt let blocks to be placed
+    * Fluid retraction (Remove flow after flow source elimination or flow unable to reach)
+    * Flow joining
+    ✅ Full block creation
+    * Flow movement
+    * General cleanup (end)
