@@ -1,0 +1,9 @@
+{
+	"enabledModules": [
+		"mob",
+		"block",
+		"command",
+		"item"
+	],
+	"disabledModules": []
+}

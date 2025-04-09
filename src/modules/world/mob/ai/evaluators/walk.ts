@@ -31,9 +31,9 @@ class WalkEvaluator extends NodeEvaluator {
           // Try to jump
 
           if (!this.checkForCollisions(aboveNode)) continue;
-          this.logger.info(
+          /* this.logger.info(
             `Adding above: ${aboveNode.x}, ${aboveNode.y}, ${aboveNode.z}`
-          );
+          ); */
           yield aboveNode;
         } else if (!neighborBlock.isSolid && !neighborBlock.below().isSolid) {
           // Try to fall through
@@ -48,9 +48,9 @@ class WalkEvaluator extends NodeEvaluator {
             belowNode.gCost += 3;
           }
           if (!this.checkForCollisions(belowNode)) continue;
-          this.logger.info(
+          /* this.logger.info(
             `Adding below: ${belowNode.x}, ${belowNode.y}, ${belowNode.z}`
-          );
+          ); */
 
           yield belowNode;
         }
@@ -60,9 +60,9 @@ class WalkEvaluator extends NodeEvaluator {
         ) {
           continue;
         }
-        this.logger.info(
+        /* this.logger.info(
           `Adding inline: ${neighbor.x}, ${neighbor.y}, ${neighbor.z}`
-        );
+        ); */
         yield neighbor;
       }
     }

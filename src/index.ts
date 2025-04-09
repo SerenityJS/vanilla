@@ -1,57 +1,43 @@
-import {
-  Astar,
-  BlockIdentifier,
-  BlockPermutation,
-  Node,
-  Player
-} from "@serenityjs/core";
-import { Plugin, PluginEvents } from "@serenityjs/plugins";
-import { Vector3f } from "@serenityjs/protocol";
+import path from "path";
+import { readFileSync } from "fs";
 
-import { WalkEvaluator } from "./mob";
+import { Plugin } from "@serenityjs/plugins";
 
-class VanillaPlugin extends Plugin implements PluginEvents {
+import block from "./modules/world/block";
+import mob from "./modules/world/mob";
+import command from "./modules/commands";
+import item from "./modules/world/item";
+import { Configuration, IVanillaModule } from "./types";
+
+const MODULES: Array<IVanillaModule> = [block, mob, command, item];
+
+class VanillaPlugin extends Plugin {
+  private basePath: string = "";
+
   public constructor() {
-    super("vanilla", "1.0.0");
+    super("vanilla-plugin", "1.0.0");
   }
 
-  public onStartUp(plugin: Plugin): void {
-    plugin.serenity.worlds.forEach((world) => {
-      world.commands.register("testing", "Testing command", ({ origin }) => {
-        if (!(origin instanceof Player)) return;
-        const evaluator = new WalkEvaluator(origin);
-        const pathfinder = new Astar(evaluator);
-        const start = origin.position.floor().subtract(new Vector3f(0, 1, 0));
-        const end = start.add(
-          new Vector3f(10, 2, 0)
-        ); /* this.randomizePosition(start, 3); */
+  public onInitialize(): void {
+    this.logger.info("Initializing plugin");
 
-        origin.dimension
-          .getBlock(start.subtract({ x: 0, y: 1, z: 0 }))
-          .setPermutation(BlockPermutation.resolve(BlockIdentifier.Bedrock));
-        console.log(end);
-        origin.dimension
-          .getBlock(end.add(new Vector3f(0, 2, 0)))
-          .setPermutation(BlockPermutation.resolve(BlockIdentifier.GoldBlock));
-        const startT = performance.now();
+    this.basePath = path.join(__dirname, "..");
+    const configuration = this.parseConfigurationFile();
+    const disabledModules = new Set(configuration.disabledModules);
 
-        const path = pathfinder.findPath(new Node(start), new Node(end), 40);
-
-        console.log(`Path found in ${performance.now() - startT}ms`);
-        for (const node of path) {
-          const block = origin.dimension.getBlock(node);
-          block.setPermutation(
-            BlockPermutation.resolve(BlockIdentifier.DiamondBlock)
-          );
-        }
-      });
-    });
+    for (const module of MODULES) {
+      if (disabledModules.has(module.name)) continue;
+      module.load(this);
+      this.logger.info(`Loaded module [${module.name}]`);
+    }
   }
 
-  private randomizePosition(base: Vector3f, max: number): Vector3f {
-    const randomX = Math.floor(Math.random() * (max - base.x + 1)) + base.x;
-    const randomZ = Math.floor(Math.random() * (max - base.z + 1)) + base.z;
-    return new Vector3f(randomX, base.y + 1, randomZ);
+  private parseConfigurationFile(): Configuration {
+    const fileContents = readFileSync(
+      path.join(this.basePath, "configuration.json"),
+      "utf-8"
+    );
+    return JSON.parse(fileContents) as Configuration;
   }
 }
 
