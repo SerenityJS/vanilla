@@ -68,9 +68,7 @@ class TemptGoal extends Goal {
 
     if (distanceToTarget < 2.5) return this.mob.navigation.stop();
     this.mob.movement.currentValue *= this.speedModifier;
-    const end = this.player.position
-      .subtract(new Vector3f(0, this.player.hitboxHeight - 0.2, 0))
-      .floor();
+    const end = this.player.position.floor();
 
     /* this.mob.lookAtControl.setTarget(this.player, 1, 40); */
     this.mob.navigation.moveTo(end);

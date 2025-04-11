@@ -25,7 +25,7 @@ class GroundMobNavigation extends EntityTrait {
     const entityMovementTrait = this.entity.getTrait(EntityMovementTrait);
 
     if (entityMovementTrait?.positionTarget !== null) return;
-    entityMovementTrait.lookAt(this.currentNode.add(new Vector3f(0, 1, 0)));
+
     entityMovementTrait.moveTowards(this.currentNode);
 
     this.currentNode = this.path.shift();
@@ -46,10 +46,9 @@ class GroundMobNavigation extends EntityTrait {
 
     const startTime = performance.now();
     const start = this.entity.position.floor();
-    const path = pathfinder.findPath(new Node(start), end, 20);
+    const path = pathfinder.findPath(new Node(start), end, 59);
     const endTime = performance.now();
     console.log(`Pathfinding took ${endTime - startTime}ms`);
-
     return path;
   }
 }

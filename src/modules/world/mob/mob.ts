@@ -17,13 +17,15 @@ import { LookAtControl } from "./control/look";
 class MobEntityTrait extends EntityTrait {
   protected readonly goalSelector: GoalSelector = new GoalSelector();
 
-  public noActionTime: bigint = 0n;
-
   public readonly navigation: GroundMobNavigation;
 
   public readonly movement: EntityMovementTrait;
 
   public readonly lookAtControl: LookAtControl;
+
+  public target?: Entity;
+
+  public noActionTime: bigint = 0n;
 
   public constructor(entity: Entity) {
     super(entity);

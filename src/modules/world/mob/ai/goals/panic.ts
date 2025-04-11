@@ -53,7 +53,7 @@ class PanicGoal extends Goal {
   private getRandomPosition(maxX: number, maxZ: number): Vector3f {
     return new Vector3f(
       Math.random() * maxX + 5,
-      this.entity.position.y - this.entity.hitboxHeight,
+      this.entity.position.y,
       Math.random() * maxZ + 5
     ).floor();
   }

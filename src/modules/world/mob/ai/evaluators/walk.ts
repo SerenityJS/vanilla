@@ -11,11 +11,9 @@ class WalkEvaluator extends NodeEvaluator {
     super(entity);
 
     this.entityBounds = new Vector2f(
-      Math.round(entity.hitboxWidth - 1),
-      Math.round(entity.hitboxHeight - 1)
+      Math.round(entity.getCollisionWidth() - 1),
+      Math.round(entity.getCollisionHeight() - 1)
     );
-
-    console.log(this.entityBounds);
   }
 
   public *getNeighbors(node: Node): Generator<Node> {

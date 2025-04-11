@@ -1,9 +1,9 @@
 import { Entity, EntityIdentifier, ItemIdentifier } from "@serenityjs/core";
 
-import { MobEntityTrait } from "./mob";
 import { PanicGoal } from "./ai/goals/panic";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
 import { TemptGoal } from "./ai/goals/tempt";
+import { MobEntityTrait } from "./mob";
 
 class PigTrait extends MobEntityTrait {
   public static readonly identifier = "minecraft:pig";
