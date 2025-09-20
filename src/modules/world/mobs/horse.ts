@@ -1,6 +1,6 @@
 import { Entity, EntityIdentifier } from "@serenityjs/core";
 
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 import { PanicGoal } from "./ai/goals/panic";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
 
@@ -8,7 +8,7 @@ class HorseMob extends MobEntityTrait {
   public static readonly identifier: string = "minecraft:horse";
 
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Horse
+    EntityIdentifier.Horse,
   ];
 
   public constructor(entity: Entity) {

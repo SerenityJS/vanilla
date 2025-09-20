@@ -3,13 +3,13 @@ import { Entity, EntityIdentifier, ItemIdentifier } from "@serenityjs/core";
 import { PanicGoal } from "./ai/goals/panic";
 import { TemptGoal } from "./ai/goals/tempt";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 
 class CowMob extends MobEntityTrait {
   public static readonly identifier: string = "minecraft:cow";
 
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Cow
+    EntityIdentifier.Cow,
   ];
 
   public constructor(entity: Entity) {
@@ -23,6 +23,9 @@ class CowMob extends MobEntityTrait {
     );
 
     this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.8));
+
+    // Set climate variant
+    this.setClimateVariant();
   }
 }
 

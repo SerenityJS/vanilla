@@ -3,7 +3,7 @@ import { Plugin } from "@serenityjs/plugins";
 import { IVanillaModule } from "../../../types";
 
 class BlocksModule implements IVanillaModule {
-  public readonly name: string = "block";
+  public readonly name: string = "Blocks";
 
   public load(plugin: Plugin): void {
     // TODO: Here we will load all the blocks,

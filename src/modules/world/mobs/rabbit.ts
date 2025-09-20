@@ -1,6 +1,6 @@
 import { Entity, EntityIdentifier, ItemIdentifier } from "@serenityjs/core";
 
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 import { PanicGoal } from "./ai/goals/panic";
 import { TemptGoal } from "./ai/goals/tempt";
 
@@ -8,7 +8,7 @@ class RabbitMob extends MobEntityTrait {
   public static readonly identifier: string = "minecraft:rabbit";
 
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Rabbit
+    EntityIdentifier.Rabbit,
   ];
 
   public constructor(entity: Entity) {
@@ -19,7 +19,7 @@ class RabbitMob extends MobEntityTrait {
       new TemptGoal(this, 1, [
         ItemIdentifier.GoldenCarrot,
         ItemIdentifier.Carrot,
-        ItemIdentifier.Dandelion
+        ItemIdentifier.Dandelion,
       ])
     );
     // Weird shit goin on with the rabbit random stroll

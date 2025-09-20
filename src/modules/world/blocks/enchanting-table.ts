@@ -2,21 +2,22 @@ import {
   Block,
   BlockContainer,
   BlockIdentifier,
+  BlockInteractionOptions,
   BlockTrait,
-  Player
+  Player,
 } from "@serenityjs/core";
 import {
   ContainerId,
   ContainerType,
   EnchantOption,
-  PlayerEnchantOptionsPacket
+  PlayerEnchantOptionsPacket,
 } from "@serenityjs/protocol";
 
 // TODO: Implement enchantment RNG
 class EnchantingTableTrait extends BlockTrait {
   public static readonly identifier = "minecraft:enchanting_table";
   public static readonly types: Array<BlockIdentifier> = [
-    BlockIdentifier.EnchantingTable
+    BlockIdentifier.EnchantingTable,
   ];
 
   private inUi?: Player;
@@ -34,7 +35,11 @@ class EnchantingTableTrait extends BlockTrait {
     );
   }
 
-  public onInteract(player: Player): boolean | void {
+  public onInteract(options: BlockInteractionOptions): boolean | void {
+    // Get the player from the interaction options.
+    const player = options.origin;
+    if (!(player instanceof Player)) return;
+
     this.container.show(player);
     this.inUi = player;
     const enchantOptionsPacket = new PlayerEnchantOptionsPacket();
@@ -57,7 +62,7 @@ class EnchantingTableTrait extends BlockTrait {
           [],
           "mental galvanize elemental ",
           233
-        )
+        ),
       ]);
     }
   }

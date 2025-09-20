@@ -4,7 +4,7 @@ import {
   EntityInteractMethod,
   EntityMovementTrait,
   EntityTrait,
-  Player
+  Player,
 } from "@serenityjs/core";
 import { Vector3f } from "@serenityjs/protocol";
 
@@ -51,10 +51,48 @@ class MobEntityTrait extends EntityTrait {
     this.noActionTime = 0n;
   }
 
+  /**
+   * Gets the entity associated with this mob.
+   * @returns The entity associated with this mob.
+   */
   public getEntity(): Entity {
     return this.entity;
   }
 
+  /**
+   * Sets the climate variant property based on the biome the entity is in.
+   */
+  public setClimateVariant(): void {
+    const entity = this.getEntity();
+    // Get the chunk the entity is in
+    const entityChunk = entity.getChunk();
+    // Get the biome at the entity's position
+    const biome = entityChunk.getBiome(entity.position);
+
+    // Set the climate variant property based on the biome
+    // TODO: Expand this to cover all biomes
+    switch (biome) {
+      default:
+        //entity.setSharedProperty("minecraft:climate_variant", "temperate");
+
+        // Add a random climate variant for default biomes
+        // TODO: Remove this later, just for testing purposes
+        const temperatures = ["temperate", "cold", "warm"];
+        const randomIndex = Math.floor(Math.random() * temperatures.length);
+        entity.setSharedProperty(
+          "minecraft:climate_variant",
+          temperatures[randomIndex]!
+        );
+    }
+  }
+
+  /**
+   * Gets the entity associated with this mob.
+   * @param type The type of entity to find.
+   * @param center The center position to search around.
+   * @param predicate An optional predicate to filter entities.
+   * @returns The nearest entity of the specified type, or undefined if none is found.
+   */
   public getNearest(
     type: EntityIdentifier,
     center: Vector3f,

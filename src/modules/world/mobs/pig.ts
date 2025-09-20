@@ -3,13 +3,13 @@ import { Entity, EntityIdentifier, ItemIdentifier } from "@serenityjs/core";
 import { PanicGoal } from "./ai/goals/panic";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
 import { TemptGoal } from "./ai/goals/tempt";
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 
-class PigTrait extends MobEntityTrait {
+class PigMob extends MobEntityTrait {
   public static readonly identifier = "minecraft:pig";
 
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Pig
+    EntityIdentifier.Pig,
   ];
 
   public constructor(entity: Entity) {
@@ -20,7 +20,7 @@ class PigTrait extends MobEntityTrait {
       4,
       new TemptGoal(this, 1.2, [
         ItemIdentifier.Carrot,
-        ItemIdentifier.CarrotOnAStick
+        ItemIdentifier.CarrotOnAStick,
       ])
     );
     this.goalSelector.addGoal(6, new RandomStrollGoal(this, 0.1));
@@ -29,7 +29,10 @@ class PigTrait extends MobEntityTrait {
       7,
       new LookAtGoal(entity, EntityIdentifier.Player, 0.02, 6)
     ); */
+
+    // Set climate variant
+    this.setClimateVariant();
   }
 }
 
-export default PigTrait;
+export default PigMob;
