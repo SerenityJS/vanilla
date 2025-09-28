@@ -1,14 +1,14 @@
 /* eslint-disable prettier/prettier */
 import { Entity, EntityIdentifier } from "@serenityjs/core";
 
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
 
 class PiglinMob extends MobEntityTrait {
   public static readonly identifier: string = "minecraft:piglin";
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Piglin
-  ]
+    EntityIdentifier.Piglin,
+  ];
 
   public constructor(entity: Entity) {
     super(entity);

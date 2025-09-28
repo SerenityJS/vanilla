@@ -1,7 +1,7 @@
 import { Entity, EntityMovementTrait } from "@serenityjs/core";
 import { Vector3f } from "@serenityjs/protocol";
 
-import { MobEntityTrait } from "../../mob";
+import { MobEntityTrait } from "../../mob-entity";
 
 import { Goal, GoalType } from "./goal";
 

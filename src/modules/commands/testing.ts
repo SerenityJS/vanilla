@@ -1,21 +1,22 @@
-import { CommandPalette, Player, StringEnum } from "@serenityjs/core";
+import { CommandPalette, Player, StringEnum, World } from "@serenityjs/core";
 
 import { IVanillaCommand } from "../../types";
 
 class TestingCommand implements IVanillaCommand {
-  public load(registry: CommandPalette): void {
-    registry.register(
+  public load(world: World): void {
+    const commandPalette: CommandPalette = world.commandPalette;
+    commandPalette.register(
       "gametest",
       "Vanilla testing command",
       (registry) => {
         registry.overload(
           {
-            test: StringEnum
+            test: StringEnum,
           },
           ({ origin, test }) => {
             if (!(origin instanceof Player)) return;
             return {
-              message: `Testing command called with argument ${test}`
+              message: `Testing command called with argument ${test}`,
             };
           }
         );

@@ -1,7 +1,7 @@
-import { Vector2f, Vector3f } from "@serenityjs/protocol";
+import { Rotation, Vector2f, Vector3f } from "@serenityjs/protocol";
 import { Entity } from "@serenityjs/core";
 
-import { MobEntityTrait } from "../mob";
+import { MobEntityTrait } from "../mob-entity";
 
 class LookAtControl {
   private readonly mob: MobEntityTrait;
@@ -34,29 +34,32 @@ class LookAtControl {
 
   public onTick(): void {
     if (!this.target) return;
-    if (this.resetXRotationOnTick)
-      this.entity.setHeadRotation(
-        new Vector2f(0, this.entity.rotation.headYaw)
-      );
+    const rotation = this.entity.rotation;
+    if (this.resetXRotationOnTick) {
+      rotation.pitch = 0;
+      rotation.yaw = this.entity.rotation.headYaw;
+      rotation.headYaw = this.entity.rotation.headYaw;
+      this.entity.setRotation(rotation);
+    }
 
-    const { pitch, yaw, headYaw } = this.entity.rotation;
+    const { yaw, headYaw } = this.entity.rotation;
 
     if (this.lookAtCooldown <= 0) {
-      this.entity.setHeadRotation(
-        new Vector2f(pitch, this.rotateTowards(headYaw, yaw, 10))
-      );
+      rotation.yaw = this.rotateTowards(headYaw, yaw, 10);
+      this.entity.setRotation(rotation);
     } else {
       this.lookAtCooldown--;
       const xRot = this.getXRot();
       const yRot = this.getYRot();
 
       if (yRot) {
-        const rotation = this.rotateTowards(
+        const newHeadYaw = this.rotateTowards(
           headYaw,
           yRot,
           this.yMaxRotationSpeed
         );
-        this.entity.setHeadRotation(new Vector2f(headYaw, rotation));
+        rotation.headYaw = newHeadYaw;
+        this.entity.setRotation(rotation);
       }
       if (xRot) {
         const rotation = this.rotateTowards(yaw, xRot, this.xMaxRotation);
@@ -68,10 +71,10 @@ class LookAtControl {
 
   private clampHeadRotation(): void {
     if (this.mob.navigation.isDone()) return;
-    const { pitch, yaw, headYaw } = this.entity.rotation;
-    this.entity.setHeadRotation(
-      new Vector2f(pitch, this.rotateIfNecessary(headYaw, yaw, 75))
-    );
+    const rotation = this.entity.rotation;
+    const newYaw = this.rotateIfNecessary(rotation.yaw, rotation.headYaw, 75);
+    rotation.yaw = newYaw;
+    this.entity.setRotation(rotation);
   }
 
   public get resetXRotationOnTick(): boolean {

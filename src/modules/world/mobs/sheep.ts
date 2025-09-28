@@ -1,6 +1,6 @@
 import { Entity, EntityIdentifier, ItemIdentifier } from "@serenityjs/core";
 
-import { MobEntityTrait } from "./mob";
+import { MobEntityTrait } from "./mob-entity";
 import { PanicGoal } from "./ai/goals/panic";
 import { TemptGoal } from "./ai/goals/tempt";
 import { RandomStrollGoal } from "./ai/goals/random-stroll";
@@ -9,7 +9,7 @@ class SheepMob extends MobEntityTrait {
   public static identifier: string = "minecraft:sheep";
 
   public static readonly types: Array<EntityIdentifier> = [
-    EntityIdentifier.Sheep
+    EntityIdentifier.Sheep,
   ];
 
   public constructor(entity: Entity) {

@@ -3,11 +3,11 @@ import {
   EntityIdentifier,
   EntityInventoryTrait,
   ItemIdentifier,
-  Player
+  Player,
 } from "@serenityjs/core";
 import { Vector3f } from "@serenityjs/protocol";
 
-import { MobEntityTrait } from "../../mob";
+import { MobEntityTrait } from "../../mob-entity";
 
 import { Goal, GoalType } from "./goal";
 
@@ -26,7 +26,7 @@ class TemptGoal extends Goal {
 
   public readonly types: Set<GoalType> = new Set([
     GoalType.Move,
-    GoalType.Look
+    GoalType.Look,
   ]);
 
   public constructor(

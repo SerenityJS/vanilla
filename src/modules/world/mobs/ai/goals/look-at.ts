@@ -1,10 +1,10 @@
 import {
   Entity,
   EntityIdentifier,
-  EntityMovementTrait
+  EntityMovementTrait,
 } from "@serenityjs/core";
 
-import { MobEntityTrait } from "../../mob";
+import { MobEntityTrait } from "../../mob-entity";
 
 import { Goal, GoalType } from "./goal";
 
